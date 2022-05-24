@@ -1,0 +1,183 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+*
+{
+    padding:0;
+    margin:0;
+}
+.menu-bar
+{
+background: rgb(0,100,0)
+}
+
+.menu-bar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+.menu-bar ul li {
+  float: left;
+}
+
+.menu-bar ul li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 28px 32px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active, .menu-bar ul li:hover {
+  background-color: #04AA6D;
+}
+
+.sub-menu
+{
+    display: none;
+}
+.menu-bar ul li:hover .sub-menu
+{
+    display: black;
+    position: absolute;
+    background: rgb(0.100.0);
+    margin-top: 15px;
+    margin-left: -15px;
+}
+
+.menu-bar ul li:hover .sub-menu ul
+{
+    display: block;
+    margin: 10px;
+}
+
+.menu-bar ul li:hover .sub-menu ul li
+{
+    width: 150px;
+    padding: 10px;
+    border-bottom: 1px dotted #fff;
+    background: transparent;
+    border-radius: 0;
+    text-align: left;
+}
+#patient_record {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#patient_record td, #patient_record th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#patient_record tr:nth-child(even){background-color: #f2f2f2;}
+
+#patient_record tr:hover {background-color: #ddd;}
+
+#patient_record th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+.select_device
+{
+    background: none;
+    display: block;
+    color: Black;
+    text-align: center;
+    padding: 38px 42px;
+}
+.select_device select
+{
+}
+.submitbtn {
+  background-color: #04AA6D;
+  color: white;
+  font-size: 40px;
+  padding: 28px 32px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 20%;
+  opacity: 0.9;	
+}
+
+.submitbtn:hover {
+  opacity: 1;
+}
+.select_device select {
+    widhth: 150px;
+    margin: 10px;
+}
+.select_device select:focus {
+    min-width: 150px;
+    width: auto;
+} 
+</style>
+</head>
+<body>
+<div class="menu-bar">
+<ul>
+  <li><a class="active" href="{{url_for('userregister')}}"><h2>New Patient Register</h2></a></li>
+  <li><a href="#news"><h2>Operater Information</h2></a></li>
+  <li><a href="{{url_for('index')}}"><h2>Logout</h2></a></li>
+</ul>
+</div>
+</div>
+<div class="select_device" >
+<form action="{{url_for('scanning_data')}}" method="POST">
+  <label for="Patient Name"><h1>Choose a Device:</h1></label>
+  <select name="urfirstname" id="urfirstname" style="width:200px; height:60px; line-height:50px;">
+    <option value="Wellue SpO2" style="font-size:60px;">Wellue SpO2</option>
+  </select>
+  <br><br>
+  <input type="submit" class="submitbtn" value="Submit">
+</form>
+</div>
+	{% with messages = get_flashed_messages()  %}
+        	{% if messages %}
+                	{% for msg in messages %}
+                        	<p style="color:red;">{{msg}}</p>
+                	{% endfor %}
+        	{% endif %}
+	{% endwith %}
+<hr>
+<h2>User ID: {{record[0]}}</h2>
+<h2>User First Name: {{record[1]}}</h2>
+<h2>User Last Name: {{record[2]}}</h2>
+<h2>User DOB: {{record[3]}}</h2>
+<h2>User Hight: {{record[4]}} cm</h2>
+</hr>
+
+<hr>
+<table id=patient_record>
+  <tr>
+    <th>Date</th>
+    <th>Time</th>
+    <th>Heart Rate</th>
+    <th>SpO2</th>
+    <th>PI</th>
+  </tr>
+  <tr>
+    <td>{{date}}</td>
+    <td>{{time}}</td>
+    <td>{{HR}}</td>
+    <td>{{SPO2}}</td>
+    <td>{{PI}}</td>
+  </tr>
+</table>
+</form>
+</body>
+</html>

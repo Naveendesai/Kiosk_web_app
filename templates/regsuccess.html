@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashbord</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+/* Set a style for the submit button */
+.logoutbtn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+  float: right
+}
+
+.logoutbtn:hover {
+  opacity: 2;
+}
+</style>
+</head>
+<body>
+
+<h1><center>Registration </center></h1>
+<form action="{{url_for('index')}}" methos="POST">
+    <p><center><h2>Your Regestraction is successfull please return to login</h2></center></p>
+    <button type="submit" class="logoutbtn"><h2>Return to Login</h2></button>
+</form>
+</body>
+</html>

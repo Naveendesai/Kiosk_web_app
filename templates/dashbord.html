@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+*
+{
+    padding:0;
+    margin:0;
+}
+.menu-bar
+{
+background: rgb(0,100,0)
+}
+
+.menu-bar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+.menu-bar ul li {
+  float: left;
+}
+
+.menu-bar ul li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 28px 32px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active, .menu-bar ul li:hover {
+  background-color: #04AA6D;
+}
+
+.sub-menu
+{
+    display: none;
+}
+.menu-bar ul li:hover .sub-menu
+{
+    display: black;
+    position: absolute;
+    background: rgb(0.100.0);
+    margin-top: 15px;
+    margin-left: -15px;
+}
+
+.menu-bar ul li:hover .sub-menu ul
+{
+    display: block;
+    margin: 10px;
+}
+
+.menu-bar ul li:hover .sub-menu ul li
+{
+    width: 150px;
+    padding: 10px;
+    border-bottom: 1px dotted #fff;
+    background: transparent;
+    border-radius: 0;
+    text-align: left;
+}
+.select_patient
+{
+    background: none;
+    display: block;
+    color: Black;
+    text-align: center;
+    padding: 38px 42px;
+}
+.select_patient select
+{
+}
+.submitbtn {
+  background-color: #04AA6D;
+  color: white;
+  font-size: 40px;
+  padding: 28px 32px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 20%;
+  opacity: 0.9;	
+}
+
+.submitbtn:hover {
+  opacity: 1;
+}
+.select_patient select {
+    widhth: 150px;
+    margin: 10px;
+}
+.select_patient select:focus {
+    min-width: 150px;
+    width: auto;
+}    
+
+</style>
+</head>
+<body>
+<div class="menu-bar">
+<ul>
+  <li><a class="active" href="{{url_for('userregister')}}"><h2>New Patient Register</h2></a></li>
+  <li><a href="#news"><h2>Operater Information</h2></a></li>
+  <li><a href="{{url_for('index')}}"><h2>Logout</h2></a></li>
+</ul>
+</div>
+
+<div class="select_patient" >
+<form action="{{url_for('dashbordrecord')}}" method="POST">
+  <label for="Patient Name"><h1>Choose a Patient:</h1></label>
+  <select name="urfirstname" id="urfirstname" style="width:200px; height:60px; line-height:50px;">
+
+    {% for urfirstname in userDropdown %}
+    <option value="{{urfirstname}}" style="font-size:60px;">{{urfirstname}}</option>
+    {% endfor %}
+  </select>
+  <br><br>
+  <input type="submit" class="submitbtn" value="Submit">
+</form>
+</div>
+</body>
+</html>
+
