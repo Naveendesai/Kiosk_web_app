@@ -1,7 +1,12 @@
 <!DOCTYPE>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <style>
 body {
   margin: 0;
@@ -191,23 +196,31 @@ body {
       <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-content">
-    <a href="{{url_for('scanning_data')}}"><h2>Wellue SpO2</h2></a>
+      <a href="{{url_for('scanning_data')}}"><h2>Wellue SpO2</h2></a>
     </div>
   </div>
-          <div class="dropdown">
+    <div class="dropdown">
     <button class="dropbtn"><h2>Vital Sign</h2>
       <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-content">
-      <a href="{{url_for('patient_record' , record='HR')}}"><h2>Heart Rate</h2></a>
+      <a href="{{url_for('patient_record')}}"><h2>Heart Rate</h2></a>
       <a href="{{url_for('patient_record')}}"><h2>Oxygen Saturation</h2></a>
     </div>
   </div>
   <a href="{{url_for('index')}}"><h2>Logout</h2></a>
 </div>
 
+	{% with messages = get_flashed_messages()  %}
+        	{% if messages %}
+                	{% for msg in messages %}
+                        	<p style="color:red;">{{msg}}</p>
+                	{% endfor %}
+        	{% endif %}
+	{% endwith %}
 
-
+<br>
+<br>
 <hr>
 <h2>User ID: {{user_info[0]}}</h2>
 <h2>User First Name: {{user_info[1]}}</h2>
@@ -215,6 +228,35 @@ body {
 <h2>User DOB: {{user_info[3]}}</h2>
 <h2>User Hight: {{user_info[4]}} cm</h2>
 </hr>
+<br>
+
+<p><center><h1>Patient New Readings </h1></center></p>
+<table id=patient_new_record class=table-style>
+  <tr>
+    <th>Date</th>
+    <th>Time</th>
+    <th>Heart Rate</th>
+    <th>Oxygen Saturation</th>
+    <th>Perfusion Index</th>
+  </tr>
+  <tr>
+    
+        <td>{{date}}</td>
+        <td>{{time}}</td>
+        <td>{{HR}}</td>
+        <td>{{SPO2}}</td>
+        <td>{{PI}}</td>
+     
+  </tr>
+</table>
+
+<br>
+<div>
+<form action="{{url_for('data_store')}}" methos="POST">
+<button type="submit" class="logoutbtn"><h2>Save</h2></button>
+</form>
+</div>
 
 </body>
 </html>
+

@@ -191,23 +191,31 @@ body {
       <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-content">
-    <a href="{{url_for('scanning_data')}}"><h2>Wellue SpO2</h2></a>
+      <a href="{{url_for('scanning_data')}}"><h2>Wellue SpO2</h2></a>
     </div>
   </div>
-          <div class="dropdown">
+    <div class="dropdown">
     <button class="dropbtn"><h2>Vital Sign</h2>
       <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-content">
-      <a href="{{url_for('patient_record' , record='HR')}}"><h2>Heart Rate</h2></a>
+      <a href="{{url_for('patient_record')}}"><h2>Heart Rate</h2></a>
       <a href="{{url_for('patient_record')}}"><h2>Oxygen Saturation</h2></a>
     </div>
   </div>
   <a href="{{url_for('index')}}"><h2>Logout</h2></a>
 </div>
 
+	{% with messages = get_flashed_messages()  %}
+        	{% if messages %}
+                	{% for msg in messages %}
+                        	<p style="color:red;">{{msg}}</p>
+                	{% endfor %}
+        	{% endif %}
+	{% endwith %}
 
-
+<br>
+<br>
 <hr>
 <h2>User ID: {{user_info[0]}}</h2>
 <h2>User First Name: {{user_info[1]}}</h2>
@@ -215,6 +223,28 @@ body {
 <h2>User DOB: {{user_info[3]}}</h2>
 <h2>User Hight: {{user_info[4]}} cm</h2>
 </hr>
+<br>
 
+<p><center><h1>Patient Record </h1></center></p>
+<table id=patient_record class=table-style>
+  <tr>
+    <th>Date</th>
+    <th>Time</th>
+    <th>Vital Sign</th>
+    <th>Reading</th>
+  </tr>
+  {% for patient_records in patient_records %}
+  <tr>
+    
+        <td>{{patient_records[1]}}</td>
+        <td>{{patient_records[2]}}</td>
+        <td>{{patient_records[7]}}</td>
+        <td>{{patient_records[6]}}</td>
+     
+  </tr>
+  {% endfor %}
+</table>
 </body>
 </html>
+
+

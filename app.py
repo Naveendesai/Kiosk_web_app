@@ -21,8 +21,13 @@ now = datetime.now()
 opid=0
 urid=0
 deviceid=0
-record=0
-
+user_info=0
+patient_records=0
+SPO2=0
+HR=0
+PI=0
+date=0
+time=0
 class Operater(db.Model):
 
     __tablename__="operater"
@@ -180,48 +185,67 @@ def dashbordrecord():
     #form = cgi.FieldStorage()
         #dropusername=form.getvalue('urfirstname');
     cur.execute("SELECT urid,urfirstname,urlastname,urdob,urhight from users where urfirstname='"+ select +"'")
-    global record
-    record=cur.fetchone()
+    global user_info
+    user_info=cur.fetchone()
     global urid
-    urid = record[0]
+    urid = user_info[0]
     global deviceid
     deviceid = 1
     
     
     #return render_template("dashbordrecord.html",record=record)
     
-    return render_template("dashbordrecord.html",record=record)
+    return render_template("dashbordrecord.html", user_info=user_info)
     #else:
      #   return render_template("dashbordrecord.html")
+@app.route("/patient_record", methods=['GET','POST'])
+def patient_record():
+    vs = request.args.get('record')
+    #vs = record
+    cur.execute("SELECT * FROM reading WHERE urid='"+ str(urid) +"' and vsdn='"+ vs +"'")
+    global patient_records
+    patient_records=cur.fetchall()
+    return render_template("patientrecord.html", user_info=user_info, patient_records=patient_records)
+
 @app.route("/scanning_data", methods=['GET','POST'])
 def scanning_data():
     import pc60fw 
     pc60fw.pulseoximeter()
     pc60fwData = pc60fw.data_avg
+    global SPO2, HR, PI
+    SPO2 = round(pc60fwData[0],2)
+    HR = round(pc60fwData[1], 2)
+    PI = round(pc60fwData[2],2)
+    
     flash("*Remove Finger*","info")
+    global date, time
     date = now.strftime("%d/%m/%Y")
     time = now.strftime("%H:%M:%S")
     
+    return render_template("scan.html",user_info=user_info, date=date, time=time, HR=HR, SPO2=SPO2, PI=PI)
+
+@app.route("/data_store", methods=['GET', 'POST'])
+def data_store():
     #Spo2
-    SPO2 = round(pc60fwData[0],2)
+    
     spo2vs = ('SPO2')
     readingData=Reading(date, time, opid, urid, deviceid, spo2vs, SPO2)
     db.session.add(readingData)
     db.session.commit()
-    #HR
-    HR = round(pc60fwData[1], 2)
+    
     hrvs = ('HR')
     readingData=Reading(date, time, opid, urid, deviceid, hrvs, HR)
     db.session.add(readingData)
     db.session.commit()
-    #PI
-    PI = round(pc60fwData[2],2)
+    
     pivs = ('PI')
     readingData=Reading(date, time, opid, urid, deviceid, pivs, PI)
     db.session.add(readingData)
     db.session.commit()
     
-    return render_template("dashbordrecord.html",record=record, date=date, time=time, HR=HR, SPO2=SPO2, PI=PI)
+    print("Data Saved")
+    
+    return render_template("dashbordrecord.html", user_info=user_info, date=date, time=time, HR=HR, SPO2=SPO2, PI=PI)
 
 if __name__ == "__main__":
     app.run(debug=True)
